@@ -1,14 +1,14 @@
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include <QApplication>
-#include "fileloader.h"
+//#include "fileoperator.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    FileLoader fl;
+   // FileOperator fl;
     //QFile f(":/obj_files/cube.obj");
-    fl.parseobjfile(":/obj_files/cube.obj");
+   // fl.parseobjfile(":/obj_files/cube.obj");
 
 
     MainWindow w;
