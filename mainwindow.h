@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "fileoperator.h"
+#include <FileOperator/fileoperator.h>
 
 namespace Ui {
 class MainWindow;

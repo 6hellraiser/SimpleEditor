@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMessageBox>
-#include <fileoperator.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

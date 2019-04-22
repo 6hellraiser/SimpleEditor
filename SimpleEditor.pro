@@ -24,14 +24,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+include(FileOperator/FileOperator.pri)
+
 SOURCES += \
-        main.cpp \
-    mainwindow.cpp \
-    fileoperator.cpp
+    main.cpp \
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    fileoperator.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
@@ -43,3 +43,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     objects.qrc
+
+DISTFILES +=
