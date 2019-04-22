@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 include(FileOperator/FileOperator.pri)
+include(FileOperator/FileOperatorTests.pri)
 
 SOURCES += \
     main.cpp \
