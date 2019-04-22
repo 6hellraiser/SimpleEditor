@@ -31,7 +31,8 @@ bool FileOperator::parseV(QStringList lineParts, QString& errorString, int lineN
     if (ok1 && ok2 && ok3)
         v.append(QVector3D(first, second, third));
     else {
-        errorString = "Could not convert line " + QString::number(lineNumber) + " to float.";
+        QString output = QString::number(lineNumber);
+        errorString = "Could not convert line " + output + " to float.";
         return false;
     }
     return true;
@@ -58,7 +59,8 @@ bool FileOperator::parseVT(QStringList lineParts, QString& errorString, int line
     if (ok1 && ok2)
         vt.append(QVector2D(first, second));
     else {
-        errorString = "Could not convert line " + QString::number(lineNumber) + " to float.";
+        QString output = QString::number(lineNumber);
+        errorString = "Could not convert line " + output + " to float.";
         return false;
     }
     return true;

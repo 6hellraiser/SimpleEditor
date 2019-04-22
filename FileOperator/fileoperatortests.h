@@ -11,6 +11,9 @@ class FileOperatorTests : public QObject
 
 private slots:
     void textStreamTest();
+    void irregularFileTest();
+    void emptyStreamTest();
+    void incorrectStreamTest();
 };
 
 }

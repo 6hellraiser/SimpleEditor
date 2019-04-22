@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>obj_files/cube.obj</file>
+        <file>UnitTests/irregular.obj</file>
     </qresource>
 </RCC>
