@@ -10,7 +10,7 @@ class FileOperatorTests : public QObject
     Q_OBJECT
 
 private slots:
-    void test01();
+    void textStreamTest();
 };
 
 }

@@ -15,16 +15,16 @@ namespace ObjReader {
 
 class FileOperator {
 private:
-    QVector<QVector3D> v;
-    QVector<QVector2D> vt; //can be QVector3D
-    QVector<QVector3D> f_v;
-    QVector<QVector3D> f_vt;
-    bool parseObjFile(QTextStream& textStream, QString& errorString);
     bool parseV(QStringList lineParts, QString& errorString, int lineNumber);
     bool parseVT(QStringList lineParts, QString& errorString, int lineNumber);
     bool parseF(QStringList lineParts, QString& errorString, int lineNumber);
 public:
+    QVector<QVector3D> v;
+    QVector<QVector2D> vt; //can be QVector3D
+    QVector<QVector3D> f_v;
+    QVector<QVector3D> f_vt;
     FileOperator();
+    bool parseObjFile(QTextStream& textStream, QString& errorString);
     bool loadObjFile(const QString& fileName, QString& errorString);
 };
 
