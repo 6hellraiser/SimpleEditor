@@ -7,7 +7,7 @@
 #include <QVector2D>
 #include <QTextStream>
 
-
+#include "FileOperator/fileoperatortests.h"
 
 namespace ObjReader {
     class FileLoader;
@@ -18,13 +18,19 @@ private:
     bool parseV(QStringList lineParts, QString& errorString, int lineNumber);
     bool parseVT(QStringList lineParts, QString& errorString, int lineNumber);
     bool parseF(QStringList lineParts, QString& errorString, int lineNumber);
-public:
+
     QVector<QVector3D> v;
     QVector<QVector2D> vt; //can be QVector3D
-    QVector<QVector3D> f_v;
-    QVector<QVector3D> f_vt;
+    QVector<int> fv;
+    QVector<int> fvIndices;
+    QVector<int> fvt;
+    QVector<int> fvtIndices;
+
+    friend class fileOperator::FileOperatorTests;
+
+public:
     FileOperator();
-    bool parseObjFile(QTextStream& textStream, QString& errorString);
+    bool parseObjStream(QTextStream& textStream, QString& errorString);
     bool loadObjFile(const QString& fileName, QString& errorString);
 };
 

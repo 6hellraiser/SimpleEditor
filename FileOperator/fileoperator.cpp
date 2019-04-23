@@ -12,7 +12,7 @@ bool FileOperator::loadObjFile(const QString& fileName, QString& errorString) {
     if (file.exists() && (file.open(QFile::ReadOnly | QFile::Text))) {
         QTextStream textStream(&file);
         QString es;
-        if (!parseObjFile(textStream, es)) {
+        if (!parseObjStream(textStream, es)) {
             errorString = es;
             return false;
         }
@@ -39,15 +39,18 @@ bool FileOperator::parseV(QStringList lineParts, QString& errorString, int lineN
 }
 
 bool FileOperator::parseF(QStringList lineParts, QString& errorString, int lineNumber) {
-    QStringList first = lineParts.at(1).split("/");
-    QStringList second = lineParts.at(2).split("/");
-    QStringList third = lineParts.at(3).split("/");
-    f_v.append(QVector3D(first.at(0).toFloat(),
-                         second.at(0).toFloat(),
-                         third.at(0).toFloat()));
-    f_vt.append(QVector3D(first.at(1).toFloat(),
-                         second.at(1).toFloat(),
-                         third.at(1).toFloat()));
+
+    if (fv.size() == 0) fvIndices.push_back(0);
+    if (fvt.size() == 0) fvtIndices.push_back(0);
+
+    for (auto partIt = lineParts.begin() + 1; partIt != lineParts.end(); partIt++) {
+        QStringList coords = partIt->split("/");
+        fv.push_back(coords.at(0).toInt());
+
+        fvt.push_back(coords.at(1).toInt());
+    }
+    fvIndices.push_back(fv.size());
+    fvtIndices.push_back(fvt.size()); //any point in having that vector?
 
     return true;
 }
@@ -66,7 +69,7 @@ bool FileOperator::parseVT(QStringList lineParts, QString& errorString, int line
     return true;
 }
 
-bool FileOperator::parseObjFile(QTextStream& textStream, QString& errorString) {
+bool FileOperator::parseObjStream(QTextStream& textStream, QString& errorString) {
     //not sure if there is a need in alert if the file is empty
     int lineNumber = 0;
     while (!textStream.atEnd()) {

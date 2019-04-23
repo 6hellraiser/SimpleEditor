@@ -9,18 +9,35 @@ void FileOperatorTests::textStreamTest()
 
     QTextStream stream("v 1 2 3\n"    \
                        "v 2.0 -1 4\n" \
-                      "vt 1 0.0\n");
+                       "v 4 6 7\n"    \
+                       "vt 1 0.0\n"    \
+                       "vt 0 1.0\n"     \
+                       "vt 1 1.0\n"     \
+                       "f 1/1/ 2/2/ 3/3/\n"\
+                       "f 1/2/ 2/1/ 3/3/ 2/1/\n"\
+                       );
 
     expectedLoader.v.push_back(QVector3D(1, 2, 3));
     expectedLoader.v.push_back(QVector3D(2.0, -1, 4));
+    expectedLoader.v.push_back(QVector3D(4, 6, 7));
     expectedLoader.vt.push_back(QVector2D(1, 0.0));
+    expectedLoader.vt.push_back(QVector2D(0, 1.0));
+    expectedLoader.vt.push_back(QVector2D(1, 1.0));
+    expectedLoader.fv = {1,2,3,1,2,3,2};
+    expectedLoader.fvIndices = {0, 3, 7};
+    expectedLoader.fvt = {1,2,3,2,1,3,1};
+    expectedLoader.fvtIndices = {0, 3, 7};
 
     FileOperator loader;
     QString erSt;
-    loader.parseObjFile(stream, erSt);
+    loader.parseObjStream(stream, erSt);
 
     QCOMPARE(loader.v, expectedLoader.v);
     QCOMPARE(loader.vt, expectedLoader.vt);
+    QCOMPARE(loader.fv, expectedLoader.fv);
+    QCOMPARE(loader.fvIndices, expectedLoader.fvIndices);
+    QCOMPARE(loader.fvt, expectedLoader.fvt);
+    QCOMPARE(loader.fvtIndices, expectedLoader.fvtIndices);
 }
 
 void FileOperatorTests::irregularFileTest()
@@ -49,7 +66,7 @@ void FileOperatorTests::emptyStreamTest()
 
     FileOperator loader;
     QString erSt;
-    loader.parseObjFile(stream, erSt);
+    loader.parseObjStream(stream, erSt);
 
     FileOperator expectedLoader;
 
@@ -62,7 +79,7 @@ void FileOperatorTests::incorrectStreamTest()
     QTextStream stream("v 1 hi 3\n");
     FileOperator expectedLoader;
     QString erSt;
-    bool success = expectedLoader.parseObjFile(stream, erSt);
+    bool success = expectedLoader.parseObjStream(stream, erSt);
 
     QCOMPARE(false, success);
     QCOMPARE("Could not convert line 1 to float.", erSt);
