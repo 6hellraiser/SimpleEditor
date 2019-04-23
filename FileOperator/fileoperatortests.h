@@ -13,7 +13,11 @@ private slots:
     void textStreamTest();
     void irregularFileTest();
     void emptyStreamTest();
-    void incorrectStreamTest();
+    void incorrectVStreamTest();
+    void incorrectVTStreamTest();
+    void incorrectFStreamTest();
+    void incorrectFStreamTest2();
+    void incorrectFStreamTest3();
 };
 
 }

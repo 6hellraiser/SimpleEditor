@@ -2,7 +2,7 @@
 #include <QFile>
 #include <QRegularExpression>
 #include <QVector3D>
-
+#include <bits/stdc++.h>
 
 FileOperator::FileOperator() {}
 
@@ -23,7 +23,7 @@ bool FileOperator::loadObjFile(const QString& fileName, QString& errorString) {
     return true;
 }
 
-bool FileOperator::parseV(QStringList lineParts, QString& errorString, int lineNumber) {
+bool FileOperator::parseV(QStringList lineParts, QString& errorString, int lineNumber = 0) {
     bool ok1, ok2, ok3;
     float first = lineParts.at(1).toFloat(&ok1);
     float second = lineParts.at(2).toFloat(&ok2);
@@ -38,16 +38,53 @@ bool FileOperator::parseV(QStringList lineParts, QString& errorString, int lineN
     return true;
 }
 
-bool FileOperator::parseF(QStringList lineParts, QString& errorString, int lineNumber) {
+bool FileOperator::parseF(QStringList lineParts, QString& errorString, int lineNumber = 0) {
 
     if (fv.size() == 0) fvIndices.push_back(0);
     if (fvt.size() == 0) fvtIndices.push_back(0);
-
+    if (lineParts.size() == 1) {
+        QString output = QString::number(lineNumber);
+        errorString = "An empty f line with number " + output + " occured.";
+        return false;
+    }
     for (auto partIt = lineParts.begin() + 1; partIt != lineParts.end(); partIt++) {
         QStringList coords = partIt->split("/");
-        fv.push_back(coords.at(0).toInt());
+        bool ok1, ok2 = false;
+        int first, second = INT_MIN;
+        if (coords.size() == 3 && coords[2] == "") {
+            first = coords.at(0).toInt(&ok1);
+            second = coords.at(1).toInt(&ok2);
+        } else if (coords.size() == 2 && coords[1] == "") {
+            first = coords.at(0).toInt(&ok1);
+        } else {
+            QString output = QString::number(lineNumber);
+            errorString = "Inapropriate line structure in the line " + output + ".";
+            return false;
+        }
 
-        fvt.push_back(coords.at(1).toInt());
+
+
+        QString output = QString::number(lineNumber);
+        errorString = "Could not convert line " + output + " to int.";
+        if (ok2) {
+            if (fvt.size() == 0 && fv.size() != 0) return false;
+            else fvt.push_back(second);
+        } else {
+            if (fvt.size() != 0) return false;
+        }
+        if (ok1) fv.push_back(first);
+        else return false;
+
+
+
+        /*if (ok1 && ok2) {
+            fv.push_back(first);
+            fvt.push_back(second);
+        } else {
+            QString output = QString::number(lineNumber);
+            errorString = "Could not convert line " + output + " to int.";
+            return false;
+        }*/
     }
     fvIndices.push_back(fv.size());
     fvtIndices.push_back(fvt.size()); //any point in having that vector?
@@ -55,7 +92,7 @@ bool FileOperator::parseF(QStringList lineParts, QString& errorString, int lineN
     return true;
 }
 
-bool FileOperator::parseVT(QStringList lineParts, QString& errorString, int lineNumber){
+bool FileOperator::parseVT(QStringList lineParts, QString& errorString, int lineNumber = 0){
     bool ok1, ok2;
     float first = lineParts.at(1).toFloat(&ok1);
     float second = lineParts.at(2).toFloat(&ok2);

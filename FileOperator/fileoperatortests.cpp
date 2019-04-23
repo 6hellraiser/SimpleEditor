@@ -74,7 +74,7 @@ void FileOperatorTests::emptyStreamTest()
     QCOMPARE(loader.vt, expectedLoader.vt);
 }
 
-void FileOperatorTests::incorrectStreamTest()
+void FileOperatorTests::incorrectVStreamTest()
 {
     QTextStream stream("v 1 hi 3\n");
     FileOperator expectedLoader;
@@ -83,4 +83,48 @@ void FileOperatorTests::incorrectStreamTest()
 
     QCOMPARE(false, success);
     QCOMPARE("Could not convert line 1 to float.", erSt);
+}
+
+void FileOperatorTests::incorrectVTStreamTest()
+{
+    QTextStream stream("vt 1 wrong 3\n");
+    FileOperator expectedLoader;
+    QString erSt;
+    bool success = expectedLoader.parseObjStream(stream, erSt);
+
+    QCOMPARE(false, success);
+    QCOMPARE("Could not convert line 1 to float.", erSt);
+}
+
+void FileOperatorTests::incorrectFStreamTest()
+{
+    QTextStream stream("f 1/2/ 3 3\n");
+    FileOperator expectedLoader;
+    QString erSt;
+    bool success = expectedLoader.parseObjStream(stream, erSt);
+
+    QCOMPARE(false, success);
+    QCOMPARE("Inapropriate line structure in the line 1.", erSt);
+}
+
+void FileOperatorTests::incorrectFStreamTest2()
+{
+    QTextStream stream("f 1 3 3/1\n");
+    FileOperator expectedLoader;
+    QString erSt;
+    bool success = expectedLoader.parseObjStream(stream, erSt);
+
+    QCOMPARE(false, success);
+    QCOMPARE("Inapropriate line structure in the line 1.", erSt);
+}
+
+void FileOperatorTests::incorrectFStreamTest3()
+{
+    QTextStream stream("f \n");
+    FileOperator expectedLoader;
+    QString erSt;
+    bool success = expectedLoader.parseObjStream(stream, erSt);
+
+    QCOMPARE(false, success);
+    QCOMPARE("An empty f line with number 1 occured.", erSt);
 }
