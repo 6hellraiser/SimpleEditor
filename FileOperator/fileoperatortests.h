@@ -18,6 +18,7 @@ private slots:
     void incorrectFStreamTest();
     void incorrectFStreamTest2();
     void incorrectFStreamTest3();
+    void incorrectFStreamTest4();
 };
 
 }

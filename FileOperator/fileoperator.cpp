@@ -51,18 +51,14 @@ bool FileOperator::parseF(QStringList lineParts, QString& errorString, int lineN
         QStringList coords = partIt->split("/");
         bool ok1, ok2 = false;
         int first, second = INT_MIN;
-        if (coords.size() == 3 && coords[2] == "") {
+        if (coords.size() == 3 && coords[0] != "") {
             first = coords.at(0).toInt(&ok1);
-            second = coords.at(1).toInt(&ok2);
-        } else if (coords.size() == 2 && coords[1] == "") {
-            first = coords.at(0).toInt(&ok1);
+            if (coords[1] != "") second = coords.at(1).toInt(&ok2);
         } else {
             QString output = QString::number(lineNumber);
             errorString = "Inapropriate line structure in the line " + output + ".";
             return false;
         }
-
-
 
         QString output = QString::number(lineNumber);
         errorString = "Could not convert line " + output + " to int.";
@@ -74,17 +70,6 @@ bool FileOperator::parseF(QStringList lineParts, QString& errorString, int lineN
         }
         if (ok1) fv.push_back(first);
         else return false;
-
-
-
-        /*if (ok1 && ok2) {
-            fv.push_back(first);
-            fvt.push_back(second);
-        } else {
-            QString output = QString::number(lineNumber);
-            errorString = "Could not convert line " + output + " to int.";
-            return false;
-        }*/
     }
     fvIndices.push_back(fv.size());
     fvtIndices.push_back(fvt.size()); //any point in having that vector?
@@ -126,8 +111,9 @@ bool FileOperator::parseObjStream(QTextStream& textStream, QString& errorString)
             if (!parseF(lineParts, errorString, lineNumber))
                 return false;
         } else {
-            errorString = "The first symbol in the line " + (QString)lineNumber + " is not identified";
-            return false;
+            //errorString = "The first symbol in the line " + (QString)lineNumber + " is not identified";
+            //return false;
+            continue; //in case we have an appropriate symbol for an obj file, but cannot recognize it.
         }
     }
     return true;

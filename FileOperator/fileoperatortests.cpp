@@ -7,13 +7,15 @@ void FileOperatorTests::textStreamTest()
 {
     FileOperator expectedLoader;
 
-    QTextStream stream("v 1 2 3\n"    \
-                       "v 2.0 -1 4\n" \
+    QTextStream stream("v 1 2 3\n"  \
+                       "v 2.0 -1 4\n"\
                        "v 4 6 7\n"    \
                        "vt 1 0.0\n"    \
                        "vt 0 1.0\n"     \
-                       "vt 1 1.0\n"     \
-                       "f 1/1/ 2/2/ 3/3/\n"\
+                       "vt 1 1.0\n"      \
+                       "vn 1.0 0 0\n"     \
+                       "vn 1.0 1.0 0\n"    \
+                       "f 1/1/1 2/2/2 3/3/1\n" \
                        "f 1/2/ 2/1/ 3/3/ 2/1/\n"\
                        );
 
@@ -56,8 +58,18 @@ void FileOperatorTests::irregularFileTest()
     expectedLoader.vt.push_back(QVector2D(0, -1.0));
     expectedLoader.vt.push_back(QVector2D(1.0, 0.0));
 
+    expectedLoader.fv = {1,2,3,2,4};
+    expectedLoader.fvIndices = {0,3,5};
+
+    expectedLoader.fvt = {1,1,2,2,1};
+    expectedLoader.fvtIndices = {0,3,5};
+
     QCOMPARE(loader.v, expectedLoader.v);
     QCOMPARE(loader.vt, expectedLoader.vt);
+    QCOMPARE(loader.fv, expectedLoader.fv);
+    QCOMPARE(loader.fvIndices, expectedLoader.fvIndices);
+    QCOMPARE(loader.fvt, expectedLoader.fvt);
+    QCOMPARE(loader.fvtIndices, expectedLoader.fvtIndices);
 }
 
 void FileOperatorTests::emptyStreamTest()
@@ -109,7 +121,7 @@ void FileOperatorTests::incorrectFStreamTest()
 
 void FileOperatorTests::incorrectFStreamTest2()
 {
-    QTextStream stream("f 1 3 3/1\n");
+    QTextStream stream("f 1 3 3/1/\n");
     FileOperator expectedLoader;
     QString erSt;
     bool success = expectedLoader.parseObjStream(stream, erSt);
@@ -127,4 +139,15 @@ void FileOperatorTests::incorrectFStreamTest3()
 
     QCOMPARE(false, success);
     QCOMPARE("An empty f line with number 1 occured.", erSt);
+}
+
+void FileOperatorTests::incorrectFStreamTest4()
+{
+    QTextStream stream("f 1/2/ 3/2 3/1/\n");
+    FileOperator expectedLoader;
+    QString erSt;
+    bool success = expectedLoader.parseObjStream(stream, erSt);
+
+    QCOMPARE(false, success);
+    QCOMPARE("Inapropriate line structure in the line 1.", erSt);
 }
