@@ -3,7 +3,7 @@
 
 #include <QTest>
 
-namespace fileOperator {
+namespace FileReaderTests {
 
 class FileOperatorTests : public QObject
 {

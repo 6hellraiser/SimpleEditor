@@ -26,6 +26,7 @@ CONFIG += c++11
 
 include(FileOperator/FileOperator.pri)
 include(FileOperator/FileOperatorTests.pri)
+include(3DObject/3DObject.pri)
 
 SOURCES += \
     main.cpp \

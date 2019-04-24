@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    fileOperator::FileOperatorTests fot;
+    FileReaderTests::FileOperatorTests fot;
     QTest::qExec(&fot);
 
     return a.exec();

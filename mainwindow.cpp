@@ -19,14 +19,15 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     //qDebug() << arg1;
     if (QString::compare(arg1, "Open...") == 0) {
-        FileOperator fo;
+        ObjReader::FileOperator fo;
+        ObjectModel::Object obj;
         QString errorString;
-        if (!fo.loadObjFile(":/obj_files/cube.obj", errorString)) {
+        if (!fo.loadObjFile(":/obj_files/cube.obj", errorString, obj)) {
             QMessageBox messageBox;
-            messageBox.critical(0,"Error", errorString);
+            messageBox.critical(this, "Error", errorString);
             messageBox.setFixedSize(500,200);
-            ui->comboBox->setCurrentIndex(0);
             //fl.parseobjfile()
         }
+        ui->comboBox->setCurrentIndex(0);
     }
 }

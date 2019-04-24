@@ -22,7 +22,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    FileOperator fl;
+    ObjReader::FileOperator fl;
 };
 
 #endif // MAINWINDOW_H

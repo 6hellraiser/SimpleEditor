@@ -1,5 +1,5 @@
-#ifndef FileLoader_H
-#define FileLoader_H
+#ifndef FileOperator_H
+#define FileOperator_H
 
 #include <QString>
 #include <QVector>
@@ -7,31 +7,22 @@
 #include <QVector2D>
 #include <QTextStream>
 
-#include "FileOperator/fileoperatortests.h"
+#include "fileloadertests.h"
+#include "3DObject/objectmodel.h"
 
 namespace ObjReader {
-    class FileLoader;
-}
 
 class FileOperator {
 private:
-    bool parseV(QStringList lineParts, QString& errorString, int lineNumber);
-    bool parseVT(QStringList lineParts, QString& errorString, int lineNumber);
-    bool parseF(QStringList lineParts, QString& errorString, int lineNumber);
-
-    QVector<QVector3D> v;
-    QVector<QVector2D> vt; //can be QVector3D
-    QVector<int> fv;
-    QVector<int> fvIndices;
-    QVector<int> fvt;
-    QVector<int> fvtIndices;
-
-    friend class fileOperator::FileOperatorTests;
+    bool parseV(QStringList lineParts, QString& errorString, ObjectModel::Object& obj, int lineNumber = 0);
+    bool parseVT(QStringList lineParts, QString& errorString, ObjectModel::Object& obj, int lineNumber = 0);
+    bool parseF(QStringList lineParts, QString& errorString, ObjectModel::Object& obj, int lineNumber = 0);
 
 public:
-    FileOperator();
-    bool parseObjStream(QTextStream& textStream, QString& errorString);
-    bool loadObjFile(const QString& fileName, QString& errorString);
+    bool parseObjStream(QTextStream& textStream, QString& errorString, ObjectModel::Object& obj);
+    bool loadObjFile(const QString& fileName, QString& errorString, ObjectModel::Object& obj);
 };
 
-#endif // FileLoader_H
+}
+
+#endif // FileOperator_H
